@@ -1,3 +1,14 @@
+# pumpkin build configs, override (via -D PATTERN_SIZE=7) on cmake configure command
+if (NOT DEFINED PATTERN_SIZE)
+  set(PATTERN_SIZE "7")
+endif()
+if (NOT DEFINED WS2812_PIN)
+  set(WS2812_PIN "22")
+endif()
+if (NOT DEFINED IS_RGBW)
+  set(IS_RGBW "false")
+endif()
+
 cmake_minimum_required(VERSION 3.13)
 
 # initialize the SDK based on PICO_SDK_PATH
@@ -14,7 +25,8 @@ add_executable(jack_o_scope)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/.generated)
 # generate the header file into the source tree as it is included in the RP2040 datasheet
 pico_generate_pio_header(jack_o_scope ${CMAKE_CURRENT_LIST_DIR}/src/ws2812.pio OUTPUT_DIR ${CMAKE_CURRENT_LIST_DIR}/.generated)
-target_sources(jack_o_scope PRIVATE src/main.c)
+target_sources(jack_o_scope PRIVATE src/patterns_${PATTERN_SIZE}.h src/display_buffer.h)
+target_sources(jack_o_scope PUBLIC src/display_buffer.c src/main.c)
 
 # Add pico_stdlib library which aggregates commonly used features
 target_link_libraries(jack_o_scope PRIVATE pico_stdlib hardware_pio)
@@ -30,3 +42,4 @@ add_custom_command(OUTPUT ${CMAKE_CURRENT_LIST_DIR}/.generated/ws2812.py
         COMMAND Pioasm -o python ${CMAKE_CURRENT_LIST_DIR}/src/ws2812.pio ${CMAKE_CURRENT_LIST_DIR}/.generated/ws2812.py
         VERBATIM)
 add_dependencies(jack_o_scope pio_ws2812_datasheet)
+add_definitions(-DPATTERN_SIZE=${PATTERN_SIZE} -DWS2812_PIN=${WS2812_PIN} -DIS_RGBW=${IS_RGBW})
