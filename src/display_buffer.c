@@ -22,7 +22,7 @@ void displayBufferShow() {
 
 void displayBufferSet(int row, int col, uint32_t color) {
   int index = row * PATTERN_SIZE;
-  bool even = (col % 2) == 0;
+  bool even = (row % 2) == 0;
   int basis = 0;
   int dir = 1;
   if (!even) {

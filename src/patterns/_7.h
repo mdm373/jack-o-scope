@@ -1,0 +1,56 @@
+
+/**
+ * Patterns for a 7x7 Pixel Grid Display
+*/
+
+static uint32_t PATTERN_BLANK[PATTERN_SIZE] = {
+  0b0000000,
+  0b0000000,
+  0b0000000,
+  0b0000000,
+  0b0000000,
+  0b0000000,
+  0b0000000,
+};
+
+static uint32_t PATTERN_SMILE[PATTERN_SIZE] = {
+  0b0100010,
+  0b1110111,
+  0b0000000,
+  0b0010100,
+  0b1000001,
+  0b0100010,
+  0b0011100
+};
+
+static uint32_t PATTERN_ANIME[PATTERN_SIZE] = {
+  0b0100010,
+  0b1010101,
+  0b0000000,
+  0b0111110,
+  0b1000001,
+  0b1000001,
+  0b0111110
+};
+
+static uint32_t PATTERN_TEETH[PATTERN_SIZE] = {
+  0b1110111,
+  0b0100010,
+  0b0000000,
+  0b1111111,
+  0b1010101,
+  0b0101010,
+  0b1111111,
+};
+
+static uint32_t PATTERN_PACMAN[PATTERN_SIZE] = {
+  0b0000000,
+  0b0111100,
+  0b1111000,
+  0b1100010,
+  0b1111000,
+  0b0111100,
+  0b0000000,
+};
+
+

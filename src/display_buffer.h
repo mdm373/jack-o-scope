@@ -1,5 +1,5 @@
-#ifndef DISAPLY_BUFFER
-#define DISAPLY_BUFFER
+#ifndef DISAPLY_BUFFER_HEADER
+#define DISAPLY_BUFFER_HEADER
 
 #include <stdlib.h>
 #include "hardware/pio.h"
