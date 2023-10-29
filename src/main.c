@@ -15,12 +15,14 @@
 #define LONG_PRESS_DURATION 750
 #define HOLD_DURATION 10000
 
-#define PATTERN_COUNT 5
-static uint32_t* PATTERNS[PATTERN_COUNT] = {
-    PATTERN_PACMAN, PATTERN_ANIME, PATTERN_SMILE, PATTERN_TEETH, PATTERN_WAT};
+#define PATTERN_COUNT 6
+static uint32_t* PATTERNS[PATTERN_COUNT] = {PATTERN_PACMAN, PATTERN_ANIME,
+                                            PATTERN_SMILE,  PATTERN_TEETH,
+                                            PATTERN_WAT,    PATTERN_SHIFTY};
 
-#define FORTUNE_COUNT 5
-static uint32_t* FORTUNES[FORTUNE_COUNT] = {PATTERN_NO, PATTERN_HEART, PATTERN_YES};
+#define FORTUNE_COUNT 3
+static uint32_t* FORTUNES[FORTUNE_COUNT] = {PATTERN_NO, PATTERN_HEART,
+                                            PATTERN_YES};
 
 static inline uint32_t urgb_u32(uint8_t r, uint8_t g, uint8_t b) {
   return ((uint32_t)(r) << 8) | ((uint32_t)(g) << 16) | (uint32_t)(b);
@@ -103,7 +105,6 @@ static void fadeIn(bool isStart, uint32_t* pattern, uint32_t color) {
 
 static uint16_t fortuneDelta;
 static uint32_t* fortuneResult;
-static uint8_t fortuneColor;
 static uint16_t fortuneFade = 0;
 static bool isFortuneShow(bool isStart) {
   if (isStart) {
@@ -111,7 +112,6 @@ static bool isFortuneShow(bool isStart) {
     fortuneFade = 0;
     int fortuneIndex = rand() % FORTUNE_COUNT;
     fortuneResult = &FORTUNES[fortuneIndex][0];
-    fortuneColor = FORTUNES_COLOR[fortuneIndex];
   } else {
     fortuneDelta = fortuneDelta + REFRESH;
   }
@@ -128,10 +128,11 @@ static bool isFortuneShow(bool isStart) {
   }
 
   fortuneFade = fortuneFade + ANIM_DELTA;
-  if(fortuneFade > 0xFF) {
+  if (fortuneFade > 0xFF) {
     fortuneFade = 0xFF;
   }
-  colorsTransition(PATTERN_BLANK, fortuneResult, fortuneFade, COLORS_OFF, COLORS_ON);
+  colorsTransition(PATTERN_BLANK, fortuneResult, fortuneFade, COLORS_OFF,
+                   COLORS_ON);
   return true;
 }
 
@@ -158,10 +159,11 @@ int main() {
     bool isOver = (currentDuration > HOLD_DURATION);
     bool isFading = (press == SHORT_PRESS) || isOver;
     bool isFortune = (press == LONG_PRESS);
-    if(isOver) {
+    if (isOver) {
       currentDuration = 0;
     }
-    isFading = (wasFading || isFading) && isFadingOut(isFading, currentPattern, COLORS_ON);
+    isFading = (wasFading || isFading) &&
+               isFadingOut(isFading, currentPattern, COLORS_ON);
     isFortune = (isFortune || wasFortune) && isFortuneShow(isFortune);
     if ((!isFading && wasFading) || (!isFortune && wasFortune)) {
       patternIndex = (patternIndex + 1) % PATTERN_COUNT;
